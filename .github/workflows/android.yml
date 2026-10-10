@@ -17,14 +17,15 @@ jobs:
         with:
           gradle-version: '8.13'
       - name: Build and lint
-        run: gradle --no-daemon assembleDebug assembleRelease lintRelease -PunsignedRelease
+        run: gradle --no-daemon assembleRelease lintRelease -PunsignedRelease
       - name: Prepare unsigned delivery and sign emulator copy
         run: |
           mkdir -p output
           tools_dir=$(find "$ANDROID_HOME/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -1)
           cp app/build/outputs/apk/release/app-release-unsigned.apk output/cube-timer-unsigned.apk
           cp "$tools_dir/lib/apksigner.jar" output/apksigner.jar
-          "$tools_dir/apksigner" sign --ks "$HOME/.android/debug.keystore" --ks-pass pass:android --key-pass pass:android --out app/build/outputs/apk/release/app-release.apk output/cube-timer-unsigned.apk
+          keytool -genkeypair -keystore "$RUNNER_TEMP/test-signing.jks" -storepass android -keypass android -alias test -keyalg RSA -validity 2 -dname "CN=Temporary emulator test"
+          "$tools_dir/apksigner" sign --ks "$RUNNER_TEMP/test-signing.jks" --ks-pass pass:android --key-pass pass:android --out app/build/outputs/apk/release/app-release.apk output/cube-timer-unsigned.apk
       - name: Enable emulator acceleration
         run: sudo chmod a+rw /dev/kvm
       - name: Verify on Android emulator
