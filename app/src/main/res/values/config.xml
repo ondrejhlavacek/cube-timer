@@ -1,0 +1,43 @@
+<resources>
+    <string name="app_name">Cube Timer</string>
+    <string name="ready">READY</string>
+    <string name="solving">SOLVING</string>
+    <string name="finished">Last solve</string>
+    <string name="start">START</string>
+    <string name="stop">STOP</string>
+    <string name="again">START AGAIN</string>
+    <string name="start_hint">Tap anywhere to start</string>
+    <string name="stop_hint">Tap anywhere to stop</string>
+    <string name="ready_accessibility">Start timer</string>
+    <string name="running_accessibility">Timer running. Stop timer</string>
+    <string name="finished_accessibility">Last solve: %1$s. Start new timer</string>
+    <string name="play_icon">▶</string>
+    <string name="stop_icon">■</string>
+    <color name="ready_background">#16823B</color>
+    <color name="running_background">#C6372E</color>
+    <color name="foreground">#FFFFFF</color>
+    <dimen name="screen_padding">24dp</dimen>
+    <dimen name="title_size">22sp</dimen>
+    <dimen name="label_size">18sp</dimen>
+    <dimen name="timer_min_size">20sp</dimen>
+    <dimen name="timer_max_size">88sp</dimen>
+    <dimen name="timer_step">1sp</dimen>
+    <dimen name="icon_size">64sp</dimen>
+    <dimen name="action_size">32sp</dimen>
+    <dimen name="hint_size">18sp</dimen>
+    <style name="AppTheme" parent="android:style/Theme.Material.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:colorAccent">@color/foreground</item>
+        <item name="android:windowBackground">@color/ready_background</item>
+    </style>
+    <style name="DisplayText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/foreground</item>
+        <item name="android:importantForAccessibility">no</item>
+    </style>
+</resources>

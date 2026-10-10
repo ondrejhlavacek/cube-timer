@@ -1,0 +1,44 @@
+name: Android APK
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.13'
+      - name: Build and lint
+        run: gradle --no-daemon assembleDebug assembleRelease lintRelease -PunsignedRelease
+      - name: Prepare unsigned delivery and sign emulator copy
+        run: |
+          mkdir -p output
+          tools_dir=$(find "$ANDROID_HOME/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -1)
+          cp app/build/outputs/apk/release/app-release-unsigned.apk output/cube-timer-unsigned.apk
+          cp "$tools_dir/lib/apksigner.jar" output/apksigner.jar
+          "$tools_dir/apksigner" sign --ks "$HOME/.android/debug.keystore" --ks-pass pass:android --key-pass pass:android --out app/build/outputs/apk/release/app-release.apk output/cube-timer-unsigned.apk
+      - name: Enable emulator acceleration
+        run: sudo chmod a+rw /dev/kvm
+      - name: Verify on Android emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          arch: x86_64
+          profile: pixel_2
+          disable-animations: true
+          script: bash scripts/smoke-test.sh
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cube-timer-build
+          path: |
+            app/build/reports/lint-results-release.html
+            output/

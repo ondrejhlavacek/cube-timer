@@ -1,0 +1,17 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/surface" android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:gravity="center" android:padding="@dimen/screen_padding"
+    android:background="@color/ready_background" android:clickable="true" android:focusable="true">
+    <TextView style="@style/DisplayText" android:text="@string/app_name" android:textSize="@dimen/title_size" />
+    <Space android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" />
+    <TextView android:id="@+id/state" style="@style/DisplayText" android:textSize="@dimen/label_size" />
+    <TextView android:id="@+id/timer" style="@style/DisplayText" android:fontFamily="sans-serif-condensed" android:textStyle="bold"
+        android:maxLines="1" android:autoSizeTextType="uniform" android:autoSizeMinTextSize="@dimen/timer_min_size"
+        android:autoSizeMaxTextSize="@dimen/timer_max_size" android:autoSizeStepGranularity="@dimen/timer_step"
+        android:textSize="@dimen/timer_max_size" android:fontFeatureSettings="tnum" />
+    <Space android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" />
+    <TextView android:id="@+id/icon" style="@style/DisplayText" android:textSize="@dimen/icon_size" />
+    <TextView android:id="@+id/action" style="@style/DisplayText" android:textSize="@dimen/action_size" android:textStyle="bold" />
+    <TextView android:id="@+id/hint" style="@style/DisplayText" android:textSize="@dimen/hint_size" />
+    <Space android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" />
+</LinearLayout>
