@@ -13,15 +13,15 @@ snapshot() {
     adb exec-out screencap -p > "output/$1.png"
 }
 read_time() {
-    grep -oE 'text="[0-9]+:[0-9]{2}\.[0-9]{2}"' "$1" | head -1 | cut -d '"' -f2
+    grep -oE 'Last solve: [0-9]+:[0-9]{2}\.[0-9]{2}' "$1" | head -1 | cut -d ' ' -f3
 }
 snapshot ready
-grep -q 'text="START"' output/ready.xml
+grep -q 'Start timer' output/ready.xml
 adb shell input tap 30 300
 sleep 2
 adb shell input tap 1000 1600
 snapshot stopped
-grep -q 'text="START AGAIN"' output/stopped.xml
+grep -q 'Last solve:' output/stopped.xml
 first_time=$(read_time output/stopped.xml)
 [[ "$first_time" != '00:00.00' ]]
 sleep 1
@@ -40,14 +40,14 @@ adb shell am start -W -n "$app_id/.MainActivity"
 sleep 1
 adb shell input tap 30 300
 snapshot resumed
-grep -q 'text="START AGAIN"' output/resumed.xml
+grep -q 'Last solve:' output/resumed.xml
 resumed_time=$(read_time output/resumed.xml)
 awk -v value="$resumed_time" 'BEGIN { split(value, parts, ":"); if (parts[1] * 60 + parts[2] < 4) exit 1 }'
 adb shell settings put system accelerometer_rotation 0
 adb shell settings put system user_rotation 1
 sleep 2
 snapshot landscape
-grep -q 'text="START AGAIN"' output/landscape.xml
+grep -q 'Last solve:' output/landscape.xml
 [[ "$(read_time output/landscape.xml)" == "$resumed_time" ]]
 adb shell settings put system user_rotation 0
 adb logcat -d -b crash > output/crash-log.txt
