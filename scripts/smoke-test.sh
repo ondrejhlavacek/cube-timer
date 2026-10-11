@@ -18,6 +18,8 @@ read_time() {
 snapshot ready
 grep -q 'Start timer' output/ready.xml
 adb shell input tap 30 300
+snapshot running
+! grep -q 'content-desc="Timer options"' output/running.xml
 sleep 2
 adb shell input tap 1000 1600
 snapshot stopped
