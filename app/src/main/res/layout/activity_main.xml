@@ -2,7 +2,13 @@
     android:id="@+id/surface" android:layout_width="match_parent" android:layout_height="match_parent"
     android:orientation="vertical" android:gravity="center" android:padding="@dimen/screen_padding"
     android:background="@color/ready_background" android:clickable="true" android:focusable="true">
-    <TextView style="@style/DisplayText" android:text="@string/app_name" android:textSize="@dimen/title_size" />
+    <FrameLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+        <TextView style="@style/DisplayText" android:layout_gravity="center" android:text="@string/app_name" android:textSize="@dimen/title_size" android:paddingStart="@dimen/settings_size" android:paddingEnd="@dimen/settings_size" />
+        <Button android:id="@+id/settings" android:layout_width="@dimen/settings_size" android:layout_height="@dimen/settings_size"
+            android:layout_gravity="end|center_vertical" android:text="@string/settings_icon" android:textColor="@color/foreground"
+            android:textSize="@dimen/settings_icon_size" android:padding="@dimen/settings_padding" android:includeFontPadding="false"
+            android:background="?android:attr/selectableItemBackgroundBorderless" android:contentDescription="@string/timer_options" />
+    </FrameLayout>
     <Space android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" />
     <TextView android:id="@+id/state" style="@style/DisplayText" android:textSize="@dimen/label_size" />
     <TextView android:id="@+id/timer" style="@style/DisplayText" android:fontFamily="sans-serif-condensed" android:textStyle="bold"

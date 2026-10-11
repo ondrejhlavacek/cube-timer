@@ -1,4 +1,11 @@
 <resources>
+    <string name="timer_options">Timer options</string>
+    <string name="resume">Resume</string>
+    <string name="reset">Reset</string>
+    <string name="settings_icon">&#x2699;&#xFE0E;</string>
+    <dimen name="settings_size">48dp</dimen>
+    <dimen name="settings_icon_size">28sp</dimen>
+    <dimen name="settings_padding">0dp</dimen>
     <string name="app_name">Cube Timer</string>
     <string name="ready">READY</string>
     <string name="solving">SOLVING</string>
