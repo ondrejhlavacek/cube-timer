@@ -1,4 +1,8 @@
 <resources>
+    <string name="timer_options">Timer options</string>
+    <string name="resume">Resume</string>
+    <string name="reset">Reset</string>
+    <dimen name="settings_size">48dp</dimen>
     <string name="app_name">Cube Timer</string>
     <string name="ready">READY</string>
     <string name="solving">SOLVING</string>

@@ -9,6 +9,7 @@ import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.view.WindowInsets;
 import android.widget.TextView;
+import android.widget.PopupMenu;
 import java.util.Locale;
 
 public final class MainActivity extends Activity {
@@ -60,6 +61,7 @@ public final class MainActivity extends Activity {
             persist();
         }
         surface.setOnClickListener(view -> toggle());
+        findViewById(R.id.settings).setOnClickListener(this::showTimerMenu);
         renderState();
     }
 
@@ -75,6 +77,33 @@ public final class MainActivity extends Activity {
             running = true;
             finished = false;
         }
+        onTimerChanged();
+    }
+
+    private void showTimerMenu(View anchor) {
+        PopupMenu menu = new PopupMenu(this, anchor);
+        menu.getMenu().add(0, R.string.resume, 0, R.string.resume).setEnabled(finished);
+        menu.getMenu().add(0, R.string.reset, 1, R.string.reset).setEnabled(finished);
+        menu.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.string.resume) {
+                startedAt = SystemClock.elapsedRealtime() - elapsed;
+                running = true;
+                finished = false;
+            } else if (item.getItemId() == R.string.reset) {
+                startedAt = 0;
+                elapsed = 0;
+                running = false;
+                finished = false;
+            } else {
+                return false;
+            }
+            onTimerChanged();
+            return true;
+        });
+        menu.show();
+    }
+
+    private void onTimerChanged() {
         persist();
         surface.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
         surface.removeCallbacks(ticker);
@@ -93,6 +122,7 @@ public final class MainActivity extends Activity {
         int color = getColor(running ? R.color.running_background : R.color.ready_background);
         surface.setBackgroundColor(color);
         surface.setKeepScreenOn(running);
+        findViewById(R.id.settings).setVisibility(running ? View.INVISIBLE : View.VISIBLE);
         getWindow().setStatusBarColor(color);
         getWindow().setNavigationBarColor(color);
         ((TextView) findViewById(R.id.state)).setText(running ? R.string.solving : finished ? R.string.finished : R.string.ready);
